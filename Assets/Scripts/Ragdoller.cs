@@ -1,37 +1,70 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Ragdoller : MonoBehaviour
 {
-    void OnEnable()
+    [SerializeField] private GameObject _ragdoll;
+    [SerializeField] private GameObject _animatedModel;
+    [SerializeField] private NavMeshAgent _navMeshAgent;
+
+    private bool _dead;
+
+    private void Awake()
     {
-        DisableRagdoll();
+        _ragdoll.gameObject.SetActive(false);
     }
 
-    void DisableRagdoll()
+    private void Update()
     {
-        var bodies = GetComponentsInChildren<Rigidbody>();
-
-        foreach (var body in bodies)
+        if (Input.GetButtonDown("Fire1"))
         {
-            body.isKinematic = true;
+            ToggleDead();
         }
-
-        var anim = GetComponent<Animator>();
-        anim.enabled = true;
     }
 
-    void EnableRagdoll()
-    {
-        var bodies = GetComponentsInChildren<Rigidbody>();
+    [ContextMenu("ToggleDead")]
 
-        foreach (var body in bodies)
+    private void ToggleDead()
+    {
+        _dead = !_dead;
+
+        if (_dead)
         {
-            body.isKinematic = false;
+            CopyTransformData(_animatedModel.transform, _ragdoll.transform, _navMeshAgent.velocity);
+            _ragdoll.gameObject.SetActive(true);
+            _animatedModel.gameObject.SetActive(false);
+            _navMeshAgent.enabled = false;
+        }
+        else
+        {
+            _ragdoll.gameObject.SetActive(false);
+            _animatedModel.gameObject.SetActive(true);
+            _navMeshAgent.enabled = true;
+        }
+    }
+
+    private void CopyTransformData(Transform sourceTransform, Transform destinationTransform, Vector3 velocity)
+    {
+        if (sourceTransform.childCount != destinationTransform.childCount)
+        {
+            Debug.LogWarning("Invalid transform copy, they need to match transform hierarchies");
+            return;
         }
 
-        var anim = GetComponent<Animator>();
-        anim.enabled = false;
+        for (int i = 0; i < sourceTransform.childCount; i++)
+        {
+            var source = sourceTransform.GetChild(i);
+            var destination = destinationTransform.GetChild(i);
+            destination.position = source.position;
+            destination.rotation = source.rotation;
+            var rb = destination.GetComponent<Rigidbody>();
+            if (rb != null)
+                rb.velocity = velocity;
+            
+            CopyTransformData(source, destination, velocity);
+        }
     }
 }
