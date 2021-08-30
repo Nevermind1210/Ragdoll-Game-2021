@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class Ragdoller : MonoBehaviour
 {
+    public Waypoint[] Waypoint;
     [SerializeField] private GameObject _ragdoll;
-    [SerializeField] private GameObject _animatedModel;
+    [SerializeField] private Animator _animatedModel;
     [SerializeField] private NavMeshAgent _navMeshAgent;
 
-    private bool _dead;
+    public bool _IsDead;
 
     private void Awake()
     {
@@ -19,19 +21,19 @@ public class Ragdoller : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire1"))
-        {
-            ToggleDead();
-        }
+        Waypoint _waypoint = Waypoint[0];
+        _navMeshAgent.SetDestination(_waypoint.transform.position);
     }
 
     [ContextMenu("ToggleDead")]
 
+    
+    
     private void ToggleDead()
     {
-        _dead = !_dead;
+        _IsDead = !_IsDead;
 
-        if (_dead)
+        if (_IsDead)
         {
             CopyTransformData(_animatedModel.transform, _ragdoll.transform, _navMeshAgent.velocity);
             _ragdoll.gameObject.SetActive(true);
