@@ -16,6 +16,7 @@ namespace DefaultNamespace
         private void FixedUpdate()
         {
             currentScore += ScoreRagdoll();
+            
         }
 
         private float ScoreRagdoll()
