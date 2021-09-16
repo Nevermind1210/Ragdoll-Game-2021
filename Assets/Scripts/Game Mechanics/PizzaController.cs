@@ -69,7 +69,7 @@ namespace Game_Mechanics
                 if (Input.GetMouseButtonDown(0) && !chargingUp)
                 {
                     holdingPizza = false;
-                    pizza.GetComponent<Rigidbody>().useGravity = true;
+                    //pizza.GetComponent<Rigidbody>().useGravity = true; // It does what it says, it uses gravity! Not having this check will make the object float... its really fun actually!
                     pizza.GetComponent<Rigidbody>().AddForce(playerCamera.transform.forward * power, ForceMode.Impulse);
                     score.UpdateShots(1);
                     Invoke("ReturnPizza", returnTime);

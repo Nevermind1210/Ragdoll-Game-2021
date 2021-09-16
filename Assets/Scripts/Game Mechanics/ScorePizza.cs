@@ -35,8 +35,9 @@ public class ScorePizza : MonoBehaviour
 
     public void UpdateShots(int amount)
     {
+        // How many shots it taken them to finish the level
         score += amount;
-        scoreText.text = "You shot " + score + " pizzas";
+        scoreText.text = score + " Pizzas";
     }
 
     private void UpdateTime()
@@ -52,7 +53,7 @@ public class ScorePizza : MonoBehaviour
         }
     }
 
-    public void UpdateScore(int amount)
+    private void UpdateScore(int amount)
     {
         score += amount;
         scoreText.text = "You achieved a score of " + score;
