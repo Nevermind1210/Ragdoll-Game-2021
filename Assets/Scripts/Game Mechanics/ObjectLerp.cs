@@ -5,13 +5,31 @@ namespace Game_Mechanics
 {
     public class ObjectLerp : MonoBehaviour
     {
-        [SerializeField] private Vector3 pointA = new Vector3(0, 0, 0);
-        [SerializeField] private Vector3 pointB = new Vector3(1, 1, 1);
+        [SerializeField] [Range(0f, 4f)] float lerpTime;
+        [SerializeField] Vector3[] myPos;
+
+        int posIndex = 0;
+        int length;
+
+        float t = 0f;
+
+        private void Start()
+        {
+            length = myPos.Length;
+        }
 
         private void Update()
         {
-            // Super smooth movement between two points with an object!
-            transform.position = Vector3.Lerp(pointA, pointB, Mathf.PingPong(Time.time, 1));
+            transform.position = Vector3.Lerp(transform.position, myPos[posIndex],lerpTime*Time.deltaTime);
+
+            t = Mathf.Lerp(t,1f,lerpTime*Time.deltaTime);
+
+            if (t > 0.9f)
+            {
+                t = 0f;
+                posIndex++;
+                posIndex = (posIndex >= length) ? 0 : posIndex;
+            }
         }
     }
 }
