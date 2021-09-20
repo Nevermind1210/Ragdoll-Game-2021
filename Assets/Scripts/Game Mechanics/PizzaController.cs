@@ -9,6 +9,7 @@ namespace Game_Mechanics
     {
         public ScorePizza score;
         
+        
         [Header("--Setup The Pizza--")] 
         [SerializeField] private GameObject pizza;
         [SerializeField] private Camera playerCamera; // The camera the player sees

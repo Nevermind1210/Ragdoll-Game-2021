@@ -5,6 +5,9 @@ namespace DefaultNamespace
 {
     public class RagdollScoring : MonoBehaviour
     {
+        [Header("--Ref--")] 
+        public ScorePizza scoreScript;
+        [Header("--Setup--")]
         private Joint[] _joints;
         [SerializeField] private float minForceToAddScore = 1f;
         public float currentScore = 0;
@@ -16,7 +19,6 @@ namespace DefaultNamespace
         private void FixedUpdate()
         {
             currentScore += ScoreRagdoll();
-            
         }
 
         private float ScoreRagdoll()

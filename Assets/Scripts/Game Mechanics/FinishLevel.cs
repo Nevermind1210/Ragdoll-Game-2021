@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game_Mechanics
 {
@@ -20,6 +21,10 @@ namespace Game_Mechanics
             {
                 ShowResults();
             }
+            else if (levelDone)
+            {
+                ShowResults();
+            }
         }
 
         private void ShowResults()
@@ -29,6 +34,17 @@ namespace Game_Mechanics
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
+        }
+        
+        public void NextLevel()
+        {
+            SceneManager.LoadScene("Level2");
+            Time.timeScale = 1f;
+        }
+        
+        public void FinishGame()
+        {
+            SceneManager.LoadScene("Main Menu");
         }
     }
 }

@@ -12,9 +12,11 @@ public class ScorePizza : MonoBehaviour
     [SerializeField] private int score;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private bool scoreUpdated;
-    [Header("Shots")] [SerializeField] private int shot;
+    [Header("Shots")]
+    [SerializeField] private int shot;
     [SerializeField] private TextMeshProUGUI shotText;
-    [Header("Timer")] [SerializeField] private float time;
+    [Header("Timer")] 
+    [SerializeField] private float time;
     [SerializeField] private TextMeshProUGUI timeText;
 
     private void Update()
@@ -42,15 +44,21 @@ public class ScorePizza : MonoBehaviour
 
     private void UpdateTime()
     {
-        if (time <= 0)
+        if (time <= 0f)
         {
             time = 0f;
+        }
+        else if (timeText.text == "0")
+        {
+            level.levelDone = true;
+            Time.timeScale = 0f;
         }
         else
         {
             time = time -= Time.deltaTime;
             timeText.text = time.ToString("0");
         }
+        
     }
 
     private void UpdateScore(int amount)
